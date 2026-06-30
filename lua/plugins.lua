@@ -1,9 +1,117 @@
+-- neogit
+vim.pack.add({
+	{src = "https://github.com/NeogitOrg/neogit"},
+	{src = "https://github.com/nvim-lua/plenary.nvim"},
+	{src = "https://github.com/sindrets/diffview.nvim"},
+})
+require("neogit").setup({
+  integrations = {
+	diffview = true,
+  },
+  kind = "tab",
+})
+
+-- neo tree
+vim.pack.add({
+	{src = "https://github.com/nvim-neo-tree/neo-tree.nvim"},
+	{src = "https://github.com/nvim-lua/plenary.nvim"},
+	{src = "https://github.com/nvim-tree/nvim-web-devicons"},
+	{src = "https://github.com/MunifTanjim/nui.nvim"},
+})
+require("neo-tree").setup({
+	event_handlers = {
+		{
+			event = "file_opened",
+			handler = function()
+				vim.schedule(function()
+				  vim.cmd("Neotree focus")
+				end)
+			end,
+		},
+	},
+})
+
+-- buffer line
+vim.pack.add({
+	{src = "https://github.com/akinsho/bufferline.nvim"},
+	{src = "https://github.com/nvim-tree/nvim-web-devicons"},
+})
+require("bufferline").setup({})
+
+-- mini.map
+vim.pack.add({
+	{src = "https://github.com/nvim-mini/mini.nvim"},
+	{src = "https://github.com/lewis6991/gitsigns.nvim"},
+})
+require("mini.map").setup({
+  integrations = {
+    require("mini.map").gen_integration.builtin_search(),
+    require("mini.map").gen_integration.diagnostic({
+      error = "DiagnosticFloatingError",
+      warn  = "DiagnosticFloatingWarn",
+      info  = "DiagnosticFloatingInfo",
+      hint  = "DiagnosticFloatingHint",
+    }),
+    require("mini.map").gen_integration.gitsigns(),
+  },
+
+  symbols = {
+    encode = require("mini.map").gen_encode_symbols.dot("4x2"),
+    scroll_line = "█",
+    scroll_view = "┃",
+  },
+
+  window = {
+    side = "right",
+    width = 15,
+    winblend = 20,
+    show_integration_count = false,
+    focusable = false,
+    zindex = 10,
+  },
+})
+
+-- folding
+vim.pack.add({
+	{src = "https://github.com/kevinhwang91/nvim-ufo"},
+	{src = "https://github.com/kevinhwang91/promise-async"},
+})
+require("ufo").setup({})
+
 -- colorscheme
 vim.pack.add({
 	{src = "https://github.com/folke/tokyonight.nvim"},
 })
 
 require("tokyonight").setup({})
+
+-- auto pairs
+vim.pack.add({
+	{src = "https://github.com/windwp/nvim-autopairs"},
+})
+
+require("nvim-autopairs").setup({
+    check_ts = true,
+    map_cr = true,
+})
+
+-- combine with cmp
+vim.pack.add({
+	{ src = "https://github.com/hrsh7th/nvim-cmp" },
+	{ src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+	{ src = "https://github.com/hrsh7th/cmp-buffer" },
+	{ src = "https://github.com/hrsh7th/cmp-path" },
+	{ src = "https://github.com/L3MON4D3/LuaSnip" },
+	{ src = "https://github.com/saadparwaiz1/cmp_luasnip" },
+})
+
+local cmp = require("cmp")
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+cmp.event:on(
+  "confirm_done",
+  cmp_autopairs.on_confirm_done()
+)
 
 -- mason
 vim.pack.add({
@@ -100,10 +208,10 @@ require('blink.cmp').setup({
         preset = "default",
         ["<C-space>"] = {},
         ["<C-p>"] = {},
-        ["<Tab>"] = {},
+        -- ["<Tab>"] = {},
         ["<S-Tab>"] = {},
         ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<C-n>"] = { "select_and_accept" },
+        ["<Tab>"] = { "select_and_accept" },
         -- ["<CR>"] = { "select_and_accept" },
         ["<C-k>"] = { "select_prev", "fallback" },
         ["<C-j>"] = { "select_next", "fallback" },
@@ -158,7 +266,6 @@ require("luau-lsp").setup({
 	sourcemap = {
 		enabled = true,
 		autogenerate = true, -- automatic generation when the server is initialized
-		rojo_project_file = "aaa.project.json",
 		sourcemap_file = "sourcemap.json",
 	},
 	fflags = {

@@ -10,4 +10,11 @@ vim.opt.winborder = "rounded"
 vim.opt.clipboard = "unnamedplus"
 vim.g.mapleader = " "
 
+-- folding
+vim.o.foldcolumn = "1"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+-- scheme
 vim.cmd.colorscheme "tokyonight"

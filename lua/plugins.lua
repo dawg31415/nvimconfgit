@@ -1,3 +1,42 @@
+-- which-key
+vim.pack.add({
+	{src = "https://github.com/folke/which-key.nvim"},
+})
+require("which-key").setup({
+	preset = "helix", -- clean floating window style
+
+	delay = function(ctx)
+	    return ctx.plugin and 0 or 200
+	end,
+
+	filter = function(mapping)
+	    -- hide internal / noisy mappings
+		return mapping.desc and mapping.desc ~= ""
+	end,
+
+	spec = {
+	  -- you can pre-declare groups here (optional but nice)
+		{ "<leader>m", group = "mini.map" },
+		{ "<leader>g", group = "git" },
+		{ "<leader>b", group = "buffer" },
+		{ "<leader>w", group = "session" },
+	},
+})
+
+-- sessions
+-- vim.pack.add({
+-- 	{src = "https://github.com/folke/persistence.nvim"},
+-- })
+-- require("persistence")
+vim.pack.add({
+  {src = "https://github.com/rmagatti/auto-session"},
+})
+require("auto-session").setup({
+	auto_session_enabled = true,
+	auto_save = true,
+	auto_restore = true,
+})
+
 -- neogit
 vim.pack.add({
 	{src = "https://github.com/NeogitOrg/neogit"},
@@ -64,8 +103,8 @@ require("mini.map").setup({
   window = {
     side = "right",
     width = 15,
-    winblend = 20,
-    show_integration_count = false,
+    winblend = 100,
+    show_integration_count = true,
     focusable = false,
     zindex = 10,
   },
@@ -163,7 +202,7 @@ require('fzf-lua').setup({
     }
 })
 
--- novice (command line
+-- novice (command line)
 vim.pack.add({
   {
     src = "https://github.com/folke/noice.nvim",
